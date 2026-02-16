@@ -12,10 +12,14 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
+/**
+ * Provider that converts countries.json data into entity classes to be stored into the h2 database.
+ * Runs on startup.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class Bootstrapper implements CommandLineRunner {
+public class RoutingDataProvider implements CommandLineRunner {
 
     private final CountryRepository countryRepository;
     private final ObjectMapper objectMapper;

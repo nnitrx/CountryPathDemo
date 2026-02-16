@@ -7,12 +7,15 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Set;
 
+/**
+ * Util class for common Country validations and calculations
+ */
 @Component
 public class CountryUtils {
 
-    private static double EARTH_RADIUS = 6372.8;
+    private static final double EARTH_RADIUS = 6372.8;
 
-    public static Set<Region> afroEurasiaGroup = Set.of(
+    public static final Set<Region> afroEurasiaGroup = Set.of(
             Region.AFRICA,
             Region.ASIA,
             Region.EUROPE);
