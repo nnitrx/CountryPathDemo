@@ -49,7 +49,8 @@ public class CountryServiceImpl implements CountryService {
         }
 
         // Fetch next bordering country by finding the one 'closest' to the destination country
-        CountryEntity nextCountry = countryRepository.findAllById(currCountry.getBorders()).stream()
+
+        return countryRepository.findAllById(currCountry.getBorders()).stream()
                 .filter(x -> !pathList.contains(x.getId()))
                 .reduce((x, y) -> {
                     List<Double> xLatLng = x.getLatlng();
@@ -60,7 +61,5 @@ public class CountryServiceImpl implements CountryService {
                             CountryUtils.calculateDistance(yLatLng.get(0), yLatLng.get(1), destLatLng.get(0), destLatLng.get(1)) ?
                             x : y;
                 }).orElseThrow(() -> new IllegalArgumentException(ErrorConstants.NO_POSSIBLE_PATH));
-
-        return nextCountry;
     }
 }

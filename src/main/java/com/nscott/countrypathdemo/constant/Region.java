@@ -14,5 +14,5 @@ public enum Region {
     @JsonProperty("Europe")
     EUROPE,
     @JsonProperty("Oceania")
-    OCEANIA;
+    OCEANIA
 }
