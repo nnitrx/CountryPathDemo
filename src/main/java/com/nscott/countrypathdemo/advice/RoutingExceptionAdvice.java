@@ -21,7 +21,7 @@ public class RoutingExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ProblemDetail handleNoSuchElementException(IllegalArgumentException e, WebRequest request) {
+    public ProblemDetail handleNoSuchElementException(NoSuchElementException e, WebRequest request) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 }

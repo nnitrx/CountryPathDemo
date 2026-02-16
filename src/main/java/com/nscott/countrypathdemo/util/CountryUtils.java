@@ -5,6 +5,7 @@ import com.nscott.countrypathdemo.model.CountryEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,12 +15,17 @@ import java.util.Set;
 public class CountryUtils {
 
     private static final double EARTH_RADIUS = 6372.8;
-
-    public static final Set<Region> afroEurasiaGroup = Set.of(
+    private static final Set<Region> afroEurasiaGroup = Set.of(
             Region.AFRICA,
             Region.ASIA,
             Region.EUROPE);
 
+    /**
+     * Make preliminary checks between start and destination country to see if a land-path is possible
+     * @param start Start country
+     * @param dest Destination country
+     * @return true if land-path is possible
+     */
     public static boolean isTraversable(CountryEntity start, CountryEntity dest) {
         if (start.isIsland() || dest.isIsland()) {
             return false;
@@ -29,11 +35,20 @@ public class CountryUtils {
                 || afroEurasiaGroup.containsAll(Arrays.asList(start.getRegion(), dest.getRegion()));
     }
 
-    public static double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
-        double deltaLat = Math.toRadians(lat2 - lat1);
-        double deltaLong = Math.toRadians(lng2 - lng1);
-        double lat1Rad = Math.toRadians(lat1);
-        double lat2Rad = Math.toRadians(lat2);
+    /**
+     * Returns calculation of distance between country lat/long coordinates using Haversine formula
+     * @param start Staring country
+     * @param dest Destination country
+     * @return Solution of distance between countries
+     */
+    public static double calculateHaversineDistance(CountryEntity start, CountryEntity dest) {
+        List<Double> startLatLng = start.getLatlng();
+        List<Double> destLatLng = dest.getLatlng();
+
+        double deltaLat = Math.toRadians(destLatLng.getFirst() - startLatLng.getFirst());
+        double deltaLong = Math.toRadians(destLatLng.getLast() - startLatLng.getLast());
+        double lat1Rad = Math.toRadians(startLatLng.getFirst());
+        double lat2Rad = Math.toRadians(destLatLng.getFirst());
 
         double a = Math.pow(Math.sin(deltaLat / 2),2)
                 + Math.pow(Math.sin(deltaLong / 2),2) * Math.cos(lat1Rad) * Math.cos(lat2Rad);
